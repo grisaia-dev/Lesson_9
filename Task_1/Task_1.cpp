@@ -10,6 +10,8 @@ public:
 		numerator_ = numerator;
 		denominator_ = denominator;
 	}
+
+    auto operator<=>(const Fraction&) const = default;
 };
 
 int main() {
