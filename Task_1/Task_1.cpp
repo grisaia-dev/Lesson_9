@@ -2,8 +2,8 @@
 
 class Fraction {
 private:
-	int numerator_;
-	int denominator_;
+	double numerator_;
+	double denominator_;
 
 public:
 	Fraction(int numerator, int denominator) {
@@ -11,7 +11,47 @@ public:
 		denominator_ = denominator;
 	}
 
-    auto operator<=>(const Fraction&) const = default;
+	bool operator<(Fraction& right) {
+		if ((numerator_ / denominator_) < (right.numerator_ / right.denominator_))
+			return true;
+		else
+			return false;
+	}
+
+	bool operator==(Fraction& right) {
+		if ((numerator_ / denominator_) == (right.numerator_ / right.denominator_))
+			return true;
+		else
+			return false;
+	}
+
+	bool operator!=(Fraction& right) {
+		if ((numerator_ / denominator_) != (right.numerator_ / right.denominator_))
+			return true;
+		else
+			return false;
+	}
+
+	bool operator>(Fraction& right) {
+		if ((numerator_ / denominator_) > (right.numerator_ / right.denominator_))
+			return true;
+		else
+			return false;
+	}
+
+	bool operator<=(Fraction& right) {
+		if ((numerator_ / denominator_) <= (right.numerator_ / right.denominator_))
+			return true;
+		else
+			return false;
+	}
+
+	bool operator>=(Fraction& right) {
+		if ((numerator_ / denominator_) >= (right.numerator_ / right.denominator_))
+			return true;
+		else
+			return false;
+	}
 };
 
 int main() {
