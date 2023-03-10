@@ -2,8 +2,8 @@
 
 class Fraction {
 private:
-	double numerator_;
-	double denominator_;
+	int numerator_;
+	int denominator_;
 
 public:
 	Fraction(int numerator, int denominator) {

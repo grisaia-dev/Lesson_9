@@ -6,28 +6,53 @@ private:
 	int numerator_;
 	int denominator_;
 
+    void reduce();
 public:
 	Fraction(int numerator, int denominator) {
 		numerator_ = numerator;
 		denominator_ = denominator;
 	}
 
-    Fraction operator+(Fraction add) { return Fraction(numerator_ + add.numerator_, denominator_ + add.denominator_); } // Сложение
-    Fraction operator-(Fraction sub) { return Fraction(numerator_ - sub.numerator_, denominator_ - sub.denominator_); } // Вычитание
-    Fraction operator*(Fraction mult) { return Fraction(numerator_ * mult.numerator_, denominator_ * mult.denominator_); } // Умножение
-    Fraction operator/(Fraction div) { return Fraction(numerator_ / div.numerator_, denominator_ / div.denominator_); } // Деление
+    Fraction operator+(Fraction& other) {// Сложение 
+        return Fraction(numerator_ * other.denominator_ + denominator_ * other.numerator_, denominator_ * other.denominator_);
+    }
+
+    Fraction operator-(Fraction& other) { // Вычитание
+        return Fraction(numerator_ * other.denominator_ - denominator_ * other.numerator_, denominator_ * other.denominator_);
+    }
+
+    Fraction operator*(Fraction& other) { // Умножение
+        return Fraction(numerator_ * other.numerator_, denominator_ * other.denominator_);
+    }
+
+    Fraction operator/(Fraction& other) { // Деление
+        return Fraction(numerator_ * other.denominator_, denominator_ * other.numerator_);
+    }
 
     // Инкремент
-    Fraction operator++() { numerator_++; denominator_++; return *this; }
-    Fraction operator++(int) { Fraction temp = *this; ++(*this); return temp; }
+    Fraction operator++() { numerator_ += denominator_; return *this; }
+    Fraction operator++(int) { Fraction temp (*this); ++*this; return temp; }
 
     // Декримент
-    Fraction operator--() { numerator_--; denominator_--; return *this; }
-    Fraction operator--(int) { Fraction temp = *this; --(*this); return temp; }
+    Fraction operator--() { numerator_ -= denominator_; return *this; }
+    Fraction operator--(int) { Fraction temp = (*this); --*this; return temp; }
+
+    //Сокращение дробей
+    void NOD() {
+        int num = numerator_;
+        int den = denominator_;
+        int buf;
+        while (den != 0) {
+            buf = den;
+            den = num % den;
+            num = buf;
+        }
+        numerator_ /= num;
+        denominator_ /= num;
+    }
 
     friend std::ostream& operator<<(std::ostream& left, Fraction& right) { return left << right.numerator_ << "/" << right.denominator_; }
 };
-
 
 int main() {
     int var1=0, var2=0;
@@ -47,23 +72,32 @@ int main() {
     Fraction f2(num1, num2);
 
     Fraction f3 = f1 + f2;
+    f3.NOD();
     std::cout << f1 << " + " << f2 << " = " << f3 << std::endl;
 
     f3 = f1 - f2;
+    //f3.NOD();
     std::cout << f1 << " - " << f2 << " = " << f3 << std::endl;
 
     f3 = f1 * f2;
+    f3.NOD();
     std::cout << f1 << " * " << f2 << " = " << f3 << std::endl;
 
     f3 = f1 / f2;
+    f3.NOD();
     std::cout << f1 << " / " << f2 << " = " << f3 << std::endl;
 
-
+    std::cout << "++" << f1 << " * " << f2;
     f3 = ++f1 * f2;
-    std::cout << "++" << f1 << " * " << f2 << " = " << f3 << std::endl;
+    f3.NOD();
+    std::cout << " = " << f3 << std::endl;
+    std::cout << "Значение дроби 1: " << f1 <<std::endl;
 
+    std::cout << f1 << "--" << " * " << f2; 
     f3 = f1-- * f2;
-    std::cout << f1 << "--" << " * " << f2 << " = " << f3 << std::endl;
+    f3.NOD();
+    std::cout << " = " << f3 << std::endl;
+    std::cout << "Значение дроби 1: " << f1 <<std::endl;
 
     return 0;
 }
