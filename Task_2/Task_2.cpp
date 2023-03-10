@@ -6,7 +6,6 @@ private:
 	int numerator_;
 	int denominator_;
 
-    void reduce();
 public:
 	Fraction(int numerator, int denominator) {
 		numerator_ = numerator;
